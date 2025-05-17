@@ -1,0 +1,55 @@
+﻿@using Lionk.Ble.Models
+@using Lionk.Components.Temperature
+@using Lionk.Core.View
+@using MudBlazor
+
+@attribute [ViewOf("Ble temperature sensor configuration", typeof(BleFlowMeter), typeof(BleFlowMeterConfig), ViewContext.Configuration)]
+
+<MudTextField @bind-Value="Component.InstanceName" Label="Name" />
+<MudSelect @bind-Value="Component.BleService" Label="Service Ble">
+    @foreach (var bleService in ComponentService.GetInstancesOfType<BleService>())
+    {
+        <MudSelectItem Value="@bleService">@bleService.InstanceName</MudSelectItem>
+    }
+</MudSelect>
+
+<MudSelect @bind-Value="Component.DeviceAddress" Label="Device Address" Disabled="@(Component.BleService is null)">
+    @{
+        var devices = GetDevices();
+        foreach (var device in devices)
+        {
+            if (string.IsNullOrEmpty(device.GetName()) || string.IsNullOrEmpty(device.GetAddress()))
+                continue;
+            <MudSelectItem Value="@device.GetAddress()">@device.GetName()</MudSelectItem>
+        }
+    }
+</MudSelect>
+
+
+@code {
+    [Parameter] public BleFlowMeter Component { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ArgumentNullException.ThrowIfNull(Component);
+    }
+
+    private List<IBleDevice> GetDevices()
+    {
+        if (Component.BleService is null)
+            return [];
+        var devices = Component.BleService.GetDevices();
+        var result = new List<IBleDevice>();
+        foreach (var device in devices)
+        {
+            string name = device.GetName();
+            if (string.IsNullOrEmpty(name)) continue;
+            if (name.Contains(BleFlowMeter.CommonName))
+            {
+                result.Add(device);
+            }
+        }
+        return result;
+    }
+}

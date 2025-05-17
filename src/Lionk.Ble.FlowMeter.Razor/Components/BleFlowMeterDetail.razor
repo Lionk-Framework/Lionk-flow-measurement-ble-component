@@ -1,0 +1,33 @@
+﻿@using Lionk.Core.Component
+@using Lionk.Core.View
+@using MudBlazor
+@attribute [ViewOfAttribute("Ble temperature sensor detail view", typeof(BleFlowMeter), typeof(BleFlowMeterDetail), ViewContext.Detail)]
+
+<MudGrid>
+    <MudItem xs="12" style="display: flex;">
+        <MudText style="flex: 1;" Typo="Typo.h6">Last notification</MudText>
+        <MudText style="flex: 1;" Typo="Typo.body1">@Component.LastNotifyDateTime.ToString("dd.MM.yy HH:mm:ss")</MudText>
+    </MudItem>
+
+    <MudItem xs="12" style="display: flex;">
+        <MudText style="flex: 1;" Typo="Typo.h6">RSSI</MudText>
+        <MudText style="flex: 1;" Typo="Typo.body1">@Component.BleService?.GetRssiOfDevice(Component.DeviceAddress)</MudText>
+    </MudItem>
+
+    <MudItem xs="12" style="display: flex;">
+        <MudText style="flex: 1;" Typo="Typo.h6">Mac address</MudText>
+        <MudText style="flex: 1;" Typo="Typo.body1">@Component.DeviceAddress</MudText>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    [Parameter] public BleFlowMeter Component { get; set; } =null!;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ArgumentNullException.ThrowIfNull(Component);
+    }
+
+}

@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Lionk-bluetooth-component\src\Lionk.Ble\Lionk.Ble.csproj" />
+      <ProjectReference Include="..\..\..\Lionk-components\src\Lionk.components\Lionk.Components.csproj" />
+    </ItemGroup>
+
+</Project>
