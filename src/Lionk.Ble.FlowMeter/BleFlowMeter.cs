@@ -1,9 +1,12 @@
 ﻿using Lionk.Ble.Models;
 using Lionk.Components.FlowMeter;
+using Lionk.Core;
 using Lionk.Core.DataModel;
 using Newtonsoft.Json;
 
 namespace Lionk.Ble.FlowMeter;
+
+[NamedElement("Ble Flow Meter", "A Ble flow meter")]
 
 public class BleFlowMeter : BaseFlowMeter, IBleCallback
 {
@@ -57,6 +60,8 @@ public class BleFlowMeter : BaseFlowMeter, IBleCallback
     /// Gets or sets the Ble service.
     /// </summary>
     [JsonIgnore]
+    [IdIs("BleServiceId")]
+
     public BleService? BleService
     {
         get => _bleService;
