@@ -1,0 +1,22 @@
+
+@using Lionk.Core.View
+@using MudBlazor
+@attribute [ViewOf("FlowMeter view", typeof(BleFlowMeter), typeof(BleFlowMeterWidget), ViewContext.Widget)]
+
+    <MudText>@Component.GetValueString()</MudText>
+
+@code {
+
+    [Parameter] public BleFlowMeter Component { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        if (Component is null) throw new ArgumentException("Component must be set");
+        Component.NewValueAvailable += Changed;
+    }
+
+    private void Changed(object? sender, EventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}
